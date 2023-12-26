@@ -91,7 +91,49 @@ def list_docker_containers():
     print(stdout)
     print(stderr)
 
-# Additional Docker functionalities (Stacks, Volumes, Networks, Images) can be added similarly
+def generate_ssh_key():
+    print("Generating RSA key pair...")
+    key_name = input("Enter a name for the key (e.g., my_key): ")
+    key_path = f"{key_name}_rsa"
+
+    # Run the ssh-keygen command to generate the key pair
+    command = f"ssh-keygen -t rsa -b 2048 -f {key_path}"
+    stdout, stderr = run_command(command)
+
+    print("RSA key pair generated successfully:")
+    print(f"Private key saved to: {key_path}")
+    print(f"Public key saved to: {key_path}.pub")
+    print(stdout)
+    print(stderr)
+
+def show_ssh_keys():
+    print("Showing existing SSH keys:")
+    command = "ls -l ~/.ssh/*.pub"
+    stdout, stderr = run_command(command)
+
+    if not stderr:
+        print(stdout)
+    else:
+        print("Error occurred while listing SSH keys.")
+        print(stderr)
+
+def ssh_menu():
+    while True:
+        print("\nSSH Menu:")
+        print("1. Generate RSA Key Pair")
+        print("2. Show Existing SSH Keys")
+        print("3. Back to Main Menu")
+
+        choice = input("Enter your choice (1-3): ")
+
+        if choice == "1":
+            generate_ssh_key()
+        elif choice == "2":
+            show_ssh_keys()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 3.")
 
 def main_menu():
     while True:
@@ -99,9 +141,10 @@ def main_menu():
         print("1. User Operations")
         print("2. Network")
         print("3. Docker")
-        print("4. Exit")
+        print("4. SSH")
+        print("5. Exit")
 
-        choice = input("Enter your choice (1-4): ")
+        choice = input("Enter your choice (1-5): ")
 
         if choice == "1":
             user_menu()
@@ -110,10 +153,12 @@ def main_menu():
         elif choice == "3":
             docker_menu()
         elif choice == "4":
+            ssh_menu()
+        elif choice == "5":
             print("Exiting the program. Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 4.")
+            print("Invalid choice. Please enter a number between 1 and 5.")
 
 def user_menu():
     while True:
@@ -204,10 +249,14 @@ def docker_container_menu():
         print("1. New Container")
         print("2. Delete Container")
         print("3. List Containers")
-        # Add more options for managing Docker containers
-        print("4. Back to Docker Menu")
+        print("4. Inspect Container")
+        print("5. Start Container")
+        print("6. Stop Container")
+        print("7. Restart Container")
+        print("8. Show Container Logs")
+        print("9. Back to Docker Menu")
 
-        choice = input("Enter your choice (1-4): ")
+        choice = input("Enter your choice (1-9): ")
 
         if choice == "1":
             image_name = input("Enter the Docker image name: ")
@@ -218,9 +267,24 @@ def docker_container_menu():
         elif choice == "3":
             list_docker_containers()
         elif choice == "4":
+            container_id = input("Enter the Docker container ID to inspect: ")
+            inspect_docker_container(container_id)
+        elif choice == "5":
+            container_id = input("Enter the Docker container ID to start: ")
+            start_docker_container(container_id)
+        elif choice == "6":
+            container_id = input("Enter the Docker container ID to stop: ")
+            stop_docker_container(container_id)
+        elif choice == "7":
+            container_id = input("Enter the Docker container ID to restart: ")
+            restart_docker_container(container_id)
+        elif choice == "8":
+            container_id = input("Enter the Docker container ID to show logs: ")
+            show_docker_container_logs(container_id)
+        elif choice == "9":
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 4.")
+            print("Invalid choice. Please enter a number between 1 and 9.")
 
 if __name__ == "__main__":
     main_menu()
