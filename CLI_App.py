@@ -1,139 +1,9 @@
-import argparse
-import subprocess
+# main.py
 
-def run_command(command):
-    try:
-        result = subprocess.run(
-            command,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            shell=True
-        )
-        return result.stdout, result.stderr
-    except Exception as e:
-        return None, str(e)
-
-def create_user(username):
-    print(f"Creating user: {username}")
-    command = f"sudo useradd {username}"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def delete_user(username):
-    print(f"Deleting user: {username}")
-    command = f"sudo userdel {username}"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def show_users():
-    print("List of Users:")
-    command = "sudo cat /etc/passwd | cut -d: -f1"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def show_groups():
-    print("List of Groups:")
-    command = "sudo cat /etc/group | cut -d: -f1"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def set_firewall_rule(rule):
-    print(f"Setting firewall rule: {rule}")
-    command = f"sudo ufw {rule}"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def delete_firewall_rule(rule):
-    print(f"Deleting firewall rule: {rule}")
-    command = f"sudo ufw delete {rule}"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def list_firewall_rules():
-    print("List of Firewall Rules:")
-    command = "sudo ufw status numbered"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def show_docker_status():
-    print("Docker Status:")
-    command = "sudo docker info"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def run_docker_container(image_name):
-    print(f"Running Docker container with image: {image_name}")
-    command = f"sudo docker run {image_name}"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def delete_docker_container(container_id):
-    print(f"Deleting Docker container with ID: {container_id}")
-    command = f"sudo docker rm {container_id}"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def list_docker_containers():
-    print("List of Docker Containers:")
-    command = "sudo docker ps -a"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
-def generate_ssh_key():
-    print("Generating RSA key pair...")
-    key_name = input("Enter a name for the key (e.g., my_key): ")
-    key_path = f"{key_name}_rsa"
-
-    # Run the ssh-keygen command to generate the key pair
-    command = f"ssh-keygen -t rsa -b 2048 -f {key_path}"
-    stdout, stderr = run_command(command)
-
-    print("RSA key pair generated successfully:")
-    print(f"Private key saved to: {key_path}")
-    print(f"Public key saved to: {key_path}.pub")
-    print(stdout)
-    print(stderr)
-
-def show_ssh_keys():
-    print("Showing existing SSH keys:")
-    command = "ls -l ~/.ssh/*.pub"
-    stdout, stderr = run_command(command)
-
-    if not stderr:
-        print(stdout)
-    else:
-        print("Error occurred while listing SSH keys.")
-        print(stderr)
-
-def ssh_menu():
-    while True:
-        print("\nSSH Menu:")
-        print("1. Generate RSA Key Pair")
-        print("2. Show Existing SSH Keys")
-        print("3. Back to Main Menu")
-
-        choice = input("Enter your choice (1-3): ")
-
-        if choice == "1":
-            generate_ssh_key()
-        elif choice == "2":
-            show_ssh_keys()
-        elif choice == "3":
-            break
-        else:
-            print("Invalid choice. Please enter a number between 1 and 3.")
+from user_operations import create_user, delete_user, show_users, show_groups
+from network_operations import set_firewall_rule, delete_firewall_rule, list_firewall_rules
+from docker_operations import show_docker_status, run_docker_container, delete_docker_container, list_docker_containers
+from ssh_operations import generate_ssh_key, show_ssh_keys
 
 def main_menu():
     while True:
@@ -285,6 +155,24 @@ def docker_container_menu():
             break
         else:
             print("Invalid choice. Please enter a number between 1 and 9.")
+
+def ssh_menu():
+    while True:
+        print("\nSSH Menu:")
+        print("1. Generate RSA Key Pair")
+        print("2. Show Existing SSH Keys")
+        print("3. Back to Main Menu")
+
+        choice = input("Enter your choice (1-3): ")
+
+        if choice == "1":
+            generate_ssh_key()
+        elif choice == "2":
+            show_ssh_keys()
+        elif choice == "3":
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 3.")
 
 if __name__ == "__main__":
     main_menu()
