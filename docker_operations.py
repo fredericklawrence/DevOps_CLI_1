@@ -2,6 +2,8 @@
 
 import subprocess
 
+from user_operations import run_command
+
 
 def show_docker_status():
     print("Docker Status:")

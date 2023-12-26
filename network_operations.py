@@ -2,6 +2,8 @@
 
 import subprocess
 
+from user_operations import run_command
+
 
 def set_firewall_rule(rule):
     print(f"Setting firewall rule: {rule}")

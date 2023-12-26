@@ -2,6 +2,8 @@
 
 import subprocess
 
+from user_operations import run_command
+
 
 def generate_ssh_key():
     print("Generating RSA key pair...")
