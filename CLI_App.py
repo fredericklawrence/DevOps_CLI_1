@@ -43,24 +43,33 @@ def delete_firewall_rule(rule):
     print(stderr)
 
 def main():
-    parser = argparse.ArgumentParser(description="DevOps CLI App")
-    parser.add_argument("--create-user", help="Create a new user")
-    parser.add_argument("--delete-user", help="Delete an existing user")
-    parser.add_argument("--set-firewall-rule", help="Set a firewall rule with ufw")
-    parser.add_argument("--delete-firewall-rule", help="Delete a firewall rule with ufw")
+    while True:
+        print("\nOptions:")
+        print("1. Create User")
+        print("2. Delete User")
+        print("3. Set Firewall Rule")
+        print("4. Delete Firewall Rule")
+        print("5. Exit")
 
-    args = parser.parse_args()
+        choice = input("Enter your choice (1-5): ")
 
-    if args.create_user:
-        create_user(args.create_user)
-    elif args.delete_user:
-        delete_user(args.delete_user)
-    elif args.set_firewall_rule:
-        set_firewall_rule(args.set_firewall_rule)
-    elif args.delete_firewall_rule:
-        delete_firewall_rule(args.delete_firewall_rule)
-    else:
-        print("No valid command provided. Use --help for usage information.")
+        if choice == "1":
+            username = input("Enter the username to create: ")
+            create_user(username)
+        elif choice == "2":
+            username = input("Enter the username to delete: ")
+            delete_user(username)
+        elif choice == "3":
+            rule = input("Enter the firewall rule to set: ")
+            set_firewall_rule(rule)
+        elif choice == "4":
+            rule = input("Enter the firewall rule to delete: ")
+            delete_firewall_rule(rule)
+        elif choice == "5":
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 5.")
 
 if __name__ == "__main__":
     main()
