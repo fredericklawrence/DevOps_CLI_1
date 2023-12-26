@@ -35,11 +35,19 @@ def set_firewall_rule(rule):
     print(stdout)
     print(stderr)
 
+def delete_firewall_rule(rule):
+    print(f"Deleting firewall rule: {rule}")
+    command = f"sudo ufw delete {rule}"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
 def main():
     parser = argparse.ArgumentParser(description="DevOps CLI App")
     parser.add_argument("--create-user", help="Create a new user")
     parser.add_argument("--delete-user", help="Delete an existing user")
     parser.add_argument("--set-firewall-rule", help="Set a firewall rule with ufw")
+    parser.add_argument("--delete-firewall-rule", help="Delete a firewall rule with ufw")
 
     args = parser.parse_args()
 
@@ -49,6 +57,8 @@ def main():
         delete_user(args.delete_user)
     elif args.set_firewall_rule:
         set_firewall_rule(args.set_firewall_rule)
+    elif args.delete_firewall_rule:
+        delete_firewall_rule(args.delete_firewall_rule)
     else:
         print("No valid command provided. Use --help for usage information.")
 
