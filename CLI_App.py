@@ -49,15 +49,39 @@ def run_docker_container(image_name):
     print(stdout)
     print(stderr)
 
+def show_docker_stats():
+    print("Docker Status/Stats:")
+    command = "sudo docker info"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
+def show_user_stats():
+    print("User Status/Stats:")
+    command = "sudo who"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
+def show_firewall_stats():
+    print("Firewall Status/Stats:")
+    command = "sudo ufw status"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
 def main_menu():
     while True:
         print("\nMain Menu Options:")
         print("1. User Operations")
         print("2. Firewall")
         print("3. Docker")
-        print("4. Exit")
+        print("4. Show User Stats")
+        print("5. Show Firewall Stats")
+        print("6. Show Docker Stats")
+        print("7. Exit")
 
-        choice = input("Enter your choice (1-4): ")
+        choice = input("Enter your choice (1-7): ")
 
         if choice == "1":
             user_menu()
@@ -66,10 +90,16 @@ def main_menu():
         elif choice == "3":
             docker_menu()
         elif choice == "4":
+            show_user_stats()
+        elif choice == "5":
+            show_firewall_stats()
+        elif choice == "6":
+            show_docker_stats()
+        elif choice == "7":
             print("Exiting the program. Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 4.")
+            print("Invalid choice. Please enter a number between 1 and 7.")
 
 def user_menu():
     while True:
