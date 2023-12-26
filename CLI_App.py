@@ -42,16 +42,43 @@ def delete_firewall_rule(rule):
     print(stdout)
     print(stderr)
 
-def main():
+def run_docker_container(image_name):
+    print(f"Running Docker container with image: {image_name}")
+    command = f"sudo docker run {image_name}"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
+def main_menu():
     while True:
-        print("\nOptions:")
+        print("\nMain Menu Options:")
+        print("1. User Operations")
+        print("2. Firewall")
+        print("3. Docker")
+        print("4. Exit")
+
+        choice = input("Enter your choice (1-4): ")
+
+        if choice == "1":
+            user_menu()
+        elif choice == "2":
+            firewall_menu()
+        elif choice == "3":
+            docker_menu()
+        elif choice == "4":
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 4.")
+
+def user_menu():
+    while True:
+        print("\nUser Operations Menu:")
         print("1. Create User")
         print("2. Delete User")
-        print("3. Set Firewall Rule")
-        print("4. Delete Firewall Rule")
-        print("5. Exit")
+        print("3. Back to Main Menu")
 
-        choice = input("Enter your choice (1-5): ")
+        choice = input("Enter your choice (1-3): ")
 
         if choice == "1":
             username = input("Enter the username to create: ")
@@ -60,16 +87,45 @@ def main():
             username = input("Enter the username to delete: ")
             delete_user(username)
         elif choice == "3":
-            rule = input("Enter the firewall rule to set: ")
-            set_firewall_rule(rule)
-        elif choice == "4":
-            rule = input("Enter the firewall rule to delete: ")
-            delete_firewall_rule(rule)
-        elif choice == "5":
-            print("Exiting the program. Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 5.")
+            print("Invalid choice. Please enter a number between 1 and 3.")
+
+def firewall_menu():
+    while True:
+        print("\nFirewall Menu:")
+        print("1. Set Firewall Rule")
+        print("2. Delete Firewall Rule")
+        print("3. Back to Main Menu")
+
+        choice = input("Enter your choice (1-3): ")
+
+        if choice == "1":
+            rule = input("Enter the firewall rule to set: ")
+            set_firewall_rule(rule)
+        elif choice == "2":
+            rule = input("Enter the firewall rule to delete: ")
+            delete_firewall_rule(rule)
+        elif choice == "3":
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 3.")
+
+def docker_menu():
+    while True:
+        print("\nDocker Menu:")
+        print("1. Run Docker Container")
+        print("2. Back to Main Menu")
+
+        choice = input("Enter your choice (1-2): ")
+
+        if choice == "1":
+            image_name = input("Enter the Docker image name: ")
+            run_docker_container(image_name)
+        elif choice == "2":
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 2.")
 
 if __name__ == "__main__":
-    main()
+    main_menu()
