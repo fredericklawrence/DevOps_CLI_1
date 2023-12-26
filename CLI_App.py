@@ -28,9 +28,16 @@ def delete_user(username):
     print(stdout)
     print(stderr)
 
-def show_users_groups():
-    print("Users and Groups:")
-    command = "sudo cat /etc/passwd"
+def show_users():
+    print("List of Users:")
+    command = "sudo cat /etc/passwd | cut -d: -f1"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
+def show_groups():
+    print("List of Groups:")
+    command = "sudo cat /etc/group | cut -d: -f1"
     stdout, stderr = run_command(command)
     print(stdout)
     print(stderr)
@@ -49,6 +56,20 @@ def delete_firewall_rule(rule):
     print(stdout)
     print(stderr)
 
+def list_firewall_rules():
+    print("List of Firewall Rules:")
+    command = "sudo ufw status numbered"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
+def show_docker_status():
+    print("Docker Status:")
+    command = "sudo docker info"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
 def run_docker_container(image_name):
     print(f"Running Docker container with image: {image_name}")
     command = f"sudo docker run {image_name}"
@@ -56,26 +77,21 @@ def run_docker_container(image_name):
     print(stdout)
     print(stderr)
 
-def show_user_stats():
-    print("User Status/Stats:")
-    command = "sudo who"
+def delete_docker_container(container_id):
+    print(f"Deleting Docker container with ID: {container_id}")
+    command = f"sudo docker rm {container_id}"
     stdout, stderr = run_command(command)
     print(stdout)
     print(stderr)
 
-def show_firewall_stats():
-    print("Firewall Status/Stats:")
-    command = "sudo ufw status"
+def list_docker_containers():
+    print("List of Docker Containers:")
+    command = "sudo docker ps -a"
     stdout, stderr = run_command(command)
     print(stdout)
     print(stderr)
 
-def show_docker_stats():
-    print("Docker Status/Stats:")
-    command = "sudo docker info"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
+# Additional Docker functionalities (Stacks, Volumes, Networks, Images) can be added similarly
 
 def main_menu():
     while True:
@@ -104,10 +120,11 @@ def user_menu():
         print("\nUser Operations Menu:")
         print("1. Create User")
         print("2. Delete User")
-        print("3. Show Users & Groups")
-        print("4. Back to Main Menu")
+        print("3. Show Users")
+        print("4. Show Groups")
+        print("5. Back to Main Menu")
 
-        choice = input("Enter your choice (1-4): ")
+        choice = input("Enter your choice (1-5): ")
 
         if choice == "1":
             username = input("Enter the username to create: ")
@@ -116,19 +133,36 @@ def user_menu():
             username = input("Enter the username to delete: ")
             delete_user(username)
         elif choice == "3":
-            show_users_groups()
+            show_users()
         elif choice == "4":
+            show_groups()
+        elif choice == "5":
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 4.")
+            print("Invalid choice. Please enter a number between 1 and 5.")
 
 def network_menu():
     while True:
         print("\nNetwork Menu:")
-        print("1. Set Firewall Rule")
-        print("2. Delete Firewall Rule")
-        print("3. Show Firewall Stats")
-        print("4. Back to Main Menu")
+        print("1. Firewall")
+        print("2. Back to Main Menu")
+
+        choice = input("Enter your choice (1-2): ")
+
+        if choice == "1":
+            firewall_menu()
+        elif choice == "2":
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 2.")
+
+def firewall_menu():
+    while True:
+        print("\nFirewall Menu:")
+        print("1. New Rule")
+        print("2. Delete Rule")
+        print("3. List Rules")
+        print("4. Back to Network Menu")
 
         choice = input("Enter your choice (1-4): ")
 
@@ -139,7 +173,7 @@ def network_menu():
             rule = input("Enter the firewall rule to delete: ")
             delete_firewall_rule(rule)
         elif choice == "3":
-            show_firewall_stats()
+            list_firewall_rules()
         elif choice == "4":
             break
         else:
@@ -148,21 +182,45 @@ def network_menu():
 def docker_menu():
     while True:
         print("\nDocker Menu:")
-        print("1. Run Docker Container")
-        print("2. Show Docker Stats")
+        print("1. Status")
+        print("2. Containers")
+        # Add more options for additional Docker functionalities (Stacks, Volumes, Networks, Images)
         print("3. Back to Main Menu")
 
         choice = input("Enter your choice (1-3): ")
 
         if choice == "1":
-            image_name = input("Enter the Docker image name: ")
-            run_docker_container(image_name)
+            show_docker_status()
         elif choice == "2":
-            show_docker_stats()
+            docker_container_menu()
         elif choice == "3":
             break
         else:
             print("Invalid choice. Please enter a number between 1 and 3.")
+
+def docker_container_menu():
+    while True:
+        print("\nDocker Containers Menu:")
+        print("1. New Container")
+        print("2. Delete Container")
+        print("3. List Containers")
+        # Add more options for managing Docker containers
+        print("4. Back to Docker Menu")
+
+        choice = input("Enter your choice (1-4): ")
+
+        if choice == "1":
+            image_name = input("Enter the Docker image name: ")
+            run_docker_container(image_name)
+        elif choice == "2":
+            container_id = input("Enter the Docker container ID to delete: ")
+            delete_docker_container(container_id)
+        elif choice == "3":
+            list_docker_containers()
+        elif choice == "4":
+            break
+        else:
+            print("Invalid choice. Please enter a number between 1 and 4.")
 
 if __name__ == "__main__":
     main_menu()
