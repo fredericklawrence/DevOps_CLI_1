@@ -12,7 +12,7 @@ def run_command(command):
         )
         return result.stdout, result.stderr
     except Exception as e:
-        return None, str(e) #comment 2
+        return None, str(e)
 
 def create_user(username):
     print(f"Creating user: {username}")
