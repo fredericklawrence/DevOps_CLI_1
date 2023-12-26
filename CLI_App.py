@@ -28,6 +28,13 @@ def delete_user(username):
     print(stdout)
     print(stderr)
 
+def show_users_groups():
+    print("Users and Groups:")
+    command = "sudo cat /etc/passwd"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
 def set_firewall_rule(rule):
     print(f"Setting firewall rule: {rule}")
     command = f"sudo ufw {rule}"
@@ -49,13 +56,6 @@ def run_docker_container(image_name):
     print(stdout)
     print(stderr)
 
-def show_docker_stats():
-    print("Docker Status/Stats:")
-    command = "sudo docker info"
-    stdout, stderr = run_command(command)
-    print(stdout)
-    print(stderr)
-
 def show_user_stats():
     print("User Status/Stats:")
     command = "sudo who"
@@ -70,45 +70,44 @@ def show_firewall_stats():
     print(stdout)
     print(stderr)
 
+def show_docker_stats():
+    print("Docker Status/Stats:")
+    command = "sudo docker info"
+    stdout, stderr = run_command(command)
+    print(stdout)
+    print(stderr)
+
 def main_menu():
     while True:
         print("\nMain Menu Options:")
         print("1. User Operations")
-        print("2. Firewall")
+        print("2. Network")
         print("3. Docker")
-        print("4. Show User Stats")
-        print("5. Show Firewall Stats")
-        print("6. Show Docker Stats")
-        print("7. Exit")
+        print("4. Exit")
 
-        choice = input("Enter your choice (1-7): ")
+        choice = input("Enter your choice (1-4): ")
 
         if choice == "1":
             user_menu()
         elif choice == "2":
-            firewall_menu()
+            network_menu()
         elif choice == "3":
             docker_menu()
         elif choice == "4":
-            show_user_stats()
-        elif choice == "5":
-            show_firewall_stats()
-        elif choice == "6":
-            show_docker_stats()
-        elif choice == "7":
             print("Exiting the program. Goodbye!")
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 7.")
+            print("Invalid choice. Please enter a number between 1 and 4.")
 
 def user_menu():
     while True:
         print("\nUser Operations Menu:")
         print("1. Create User")
         print("2. Delete User")
-        print("3. Back to Main Menu")
+        print("3. Show Users & Groups")
+        print("4. Back to Main Menu")
 
-        choice = input("Enter your choice (1-3): ")
+        choice = input("Enter your choice (1-4): ")
 
         if choice == "1":
             username = input("Enter the username to create: ")
@@ -117,18 +116,21 @@ def user_menu():
             username = input("Enter the username to delete: ")
             delete_user(username)
         elif choice == "3":
+            show_users_groups()
+        elif choice == "4":
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 3.")
+            print("Invalid choice. Please enter a number between 1 and 4.")
 
-def firewall_menu():
+def network_menu():
     while True:
-        print("\nFirewall Menu:")
+        print("\nNetwork Menu:")
         print("1. Set Firewall Rule")
         print("2. Delete Firewall Rule")
-        print("3. Back to Main Menu")
+        print("3. Show Firewall Stats")
+        print("4. Back to Main Menu")
 
-        choice = input("Enter your choice (1-3): ")
+        choice = input("Enter your choice (1-4): ")
 
         if choice == "1":
             rule = input("Enter the firewall rule to set: ")
@@ -137,25 +139,30 @@ def firewall_menu():
             rule = input("Enter the firewall rule to delete: ")
             delete_firewall_rule(rule)
         elif choice == "3":
+            show_firewall_stats()
+        elif choice == "4":
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 3.")
+            print("Invalid choice. Please enter a number between 1 and 4.")
 
 def docker_menu():
     while True:
         print("\nDocker Menu:")
         print("1. Run Docker Container")
-        print("2. Back to Main Menu")
+        print("2. Show Docker Stats")
+        print("3. Back to Main Menu")
 
-        choice = input("Enter your choice (1-2): ")
+        choice = input("Enter your choice (1-3): ")
 
         if choice == "1":
             image_name = input("Enter the Docker image name: ")
             run_docker_container(image_name)
         elif choice == "2":
+            show_docker_stats()
+        elif choice == "3":
             break
         else:
-            print("Invalid choice. Please enter a number between 1 and 2.")
+            print("Invalid choice. Please enter a number between 1 and 3.")
 
 if __name__ == "__main__":
     main_menu()
